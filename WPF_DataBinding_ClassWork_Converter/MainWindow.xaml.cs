@@ -23,6 +23,27 @@ namespace WPF_DataBinding_ClassWork_Converter
         public MainWindow()
         {
             InitializeComponent();
+            _days.ItemsSource = Enumerable.Range(1, 10);
+        }
+
+        private void button_getForecast(object sender, RoutedEventArgs e)
+        {
+            var data = new List<Forecast>();
+            int days = (int)_days.SelectedItem;
+            var rnd = new Random();
+            for (int i = 0; i < days; i++)
+            {
+                double temp = rnd.NextDouble() * 40 - 10;
+                var forecast = new Forecast
+                {
+                    GeneralForecast = (GeneralForecast)rnd.Next(Enum.GetValues(typeof(GeneralForecast)).Length),
+                    TemperatureLow = temp,
+                    TemperatureHigh = temp + rnd.NextDouble() * 15,
+                    Percipitation = rnd.Next(10) > 5 ? rnd.NextDouble() * 10 : 0
+                };
+                data.Add(forecast);
+            }
+            DataContext = data;
         }
     }
 }
